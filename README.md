@@ -1,5 +1,5 @@
 # oddetect-project-gogoplodeske
-oddetect-project-gogoplodeske created by GitHub Classroom
+Oddetect-project-gogoplodeske created by Ghadeer.
 
 A user interface whcih specify when and where in the image to visualize the passing by tracks. 
 
@@ -17,9 +17,13 @@ The user can enter the following inputs in the interface:
 3) an area in the image. To display the tracks on this area.
 
 Here is run examples of  the application: 
-In the right is the user interface( the inputs) int the left is the output.( tracks display according to the input)
+In the right is the user interface (the inputs) in the left is the output.(tracks display according to the input).
 
+1)
 ![GitHub Logo](/ex1.png)
+
+
+2)
 ![GitHub Logo](/ex2.png)
 
 
