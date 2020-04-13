@@ -3,7 +3,7 @@ Oddetect-project-gogoplodeske created by Ghadeer.
 
 A user interface which specify when and where in the image to visualize tracks of passing by objects under a surveillance camera. 
 
-The aim and motivation of such visualization are to understand and figure how to define and build a computer vision model or machine learning model to detect odd behaviours(e.g. illegal attacks or dangerious events).
+The aim and motivation of such visualization are to understand and figure how to define and build a computer vision model or machine learning model to detect odd behaviours(e.g. illegal attacks or dangerous events).
 
 Running the interface is by running tracking.py.
 
