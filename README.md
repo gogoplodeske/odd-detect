@@ -7,7 +7,7 @@ The aim and motivation of such visualization are to understand and figure how to
 
 Running the interface is by running tracking.py.
 
-The loaded tracks in the image is readen by the data  records in the csv.files which are provided in huji2.1 directory which can be 
+The loaded tracks in the image is readen by the data  records in the CSV files which are provided in huji2.1 directory which can be 
 obtained by unziping huiji2.zip. 
 The user can enter the following inputs in the interface: 
 1) From which hour to which hour to display the tracks.
