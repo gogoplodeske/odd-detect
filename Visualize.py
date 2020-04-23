@@ -19,7 +19,7 @@ monthes = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "June": 6, "July": 
 
 
 class Track:
-    def __init__(self, image, dir, starthour=0, endhour=24, C2=0, date1=None, date2=None, topleft=[0, 0],
+    def __init__(self, image, dir, size, starthour=0, endhour=24, C2=0, date1=None, date2=None, topleft=[0, 0],
                  bottonright=[1023, 1023]):
         self.image = image
         self.dir = dir
@@ -30,7 +30,7 @@ class Track:
         self.date2 = np.array(date2)
         self.topleft = np.array(topleft)
         self.bottonright = np.array(bottonright)
-
+        self.size = size * size
 
     def read_directory(self):
         for root, dirs, files in os.walk(self.dir):
@@ -65,6 +65,18 @@ class Track:
             # print(data)
             df = self.read_csv(os.path.join(self.dir, data))
             print(df.head(10))
+            df = df[df['x'] > self.topleft[0]]
+            df = df[df['y'] > self.topleft[1]]
+            df = df[df['x'] < self.bottonright[0]]
+            df = df[df['y'] < self.bottonright[1]]
+            df = df[df['bounding_size'] < self.size]
+            df =
+
+
+            print("this is my thing to check \n")
+
+            print(df['bounding_size'].dtype)
+           # df = df[df['bounding_size']] < self.size
             for index, row in df.iterrows():
                 x = int(row["x"])
                 y = int(row["y"])
@@ -81,10 +93,13 @@ class Track:
                 strictly = ((self.date1 < datarray) & (datarray < self.date2))
                 eq = ((self.date1 == datarray) | (datarray == self.date2))
                 points = np.array([x, y])
-                maskarea = ((self.topleft <= points) &  (points <= self.bottonright))
+                # maskarea = ((self.topleft <= points) &  (points <= self.bottonright))
+                # size = int(row["bounding_size"])
 
-                if (strictly[2] == True) or (eq[2]==True and strictly[1]==True) or(eq[2]==True and eq[1]==True and (eq[0]==True or strictly[0]==True)) :
-                    if starthour <= hour and hour <= endhour and np.all(maskarea) == True:
+                if (strictly[2] == True) or (eq[2] == True and strictly[1] == True) or (
+                        eq[2] == True and eq[1] == True and (eq[0] == True or strictly[0] == True)):
+                    if starthour <= hour and hour <= endhour:  # and np.all(maskarea) == True:
+                        print(self.size)
                         if key in prev_point:
                             point = prev_point[key]
                             itX = (1 if x <= point[0] else -1)
@@ -95,10 +110,8 @@ class Track:
                             # image[x:point[0]:itX, y:point[1]:itY, 0:3] = color_list[obj_id]
                             prev_point[key] = [x, y]
                         else:
-                            #image[x , y , :] = color_list[c]
+                            # image[x , y , :] = color_list[c]
                             prev_point[key] = [x, y]
-
-
 
         plt.imshow(image)
         plt.show()

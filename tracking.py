@@ -8,14 +8,15 @@
 import sys
 
 import cv2
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QApplication
 import Visualize as vs
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
+
 
 class Ui_Tracking(object):
     def setupUi(self, Tracking):
         Tracking.setObjectName("Tracking")
-        Tracking.resize(681, 509)
+        Tracking.resize(681, 640)
         self.show = QtWidgets.QDialogButtonBox(Tracking)
         self.show.setGeometry(QtCore.QRect(450, 50, 81, 241))
         self.show.setOrientation(QtCore.Qt.Vertical)
@@ -135,6 +136,30 @@ class Ui_Tracking(object):
         self.endhour = QtWidgets.QTextEdit(Tracking)
         self.endhour.setGeometry(QtCore.QRect(170, 110, 104, 31))
         self.endhour.setObjectName("endhour")
+        self.label_8 = QtWidgets.QLabel(Tracking)
+        self.label_8.setGeometry(QtCore.QRect(20, 480, 211, 41))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_8.setFont(font)
+        self.label_8.setStyleSheet("background-color: rgb(62, 49, 255);")
+        self.label_8.setObjectName("label_8")
+        self.topleft_3 = QtWidgets.QSpinBox(Tracking)
+        self.topleft_3.setGeometry(QtCore.QRect(30, 530, 91, 22))
+        self.topleft_3.setWrapping(False)
+        self.topleft_3.setKeyboardTracking(True)
+        self.topleft_3.setMinimum(-1)
+        self.topleft_3.setMaximum(1021)
+        self.topleft_3.setSingleStep(1)
+        self.topleft_3.setStepType(QtWidgets.QAbstractSpinBox.DefaultStepType)
+        self.topleft_3.setProperty("value", 1021)
+        self.topleft_3.setDisplayIntegerBase(9)
+        self.topleft_3.setObjectName("topleft_3")
+        self.label_10 = QtWidgets.QLabel(Tracking)
+        self.label_10.setGeometry(QtCore.QRect(130, 530, 81, 21))
+        self.label_10.setWordWrap(False)
+        self.label_10.setObjectName("label_10")
 
         self.retranslateUi(Tracking)
         self.show.accepted.connect(self.showt)
@@ -163,11 +188,11 @@ class Ui_Tracking(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">24</p></body></html>"))
-
+        self.label_8.setText(_translate("Tracking", "<html><head/><body><p><span style=\" font-size:16pt; color:#ff5500;\">max size</span></p></body></html>"))
+        self.label_10.setText(_translate("Tracking", "^2"))
 
 
     def showt(self):
-
         txt = self.starthour.toPlainText()
         print(txt)
         print(type(txt))
@@ -180,25 +205,22 @@ class Ui_Tracking(object):
         enddate = [int(x) for x in time2list]
         print(time1)
         print(type(time1))
-        ara =self.topleft_2.text()
+        ara = self.topleft_2.text()
         print(ara)
         print(type(ara))
         starthour = int(self.starthour.toPlainText())
         print(starthour)
         endhour = int(self.endhour.toPlainText())
-        topleft = [int(self.topleft_1.text()),int(self.topleft_2.text())]
-        bottonright = [int(self.bottomright_1.text()),int(self.bottomright_2.text())]
+        topleft = [int(self.topleft_1.text()), int(self.topleft_2.text())]
+        bottonright = [int(self.bottomright_1.text()), int(self.bottomright_2.text())]
         image = cv2.imread("base.png")
         dir_file = "huji2.1"
+        size = int(self.topleft_3.text())
 
-
-        tracks = vs.Track(image,dir_file,starthour=starthour,endhour=endhour,C2=0,date1 =startdate,date2=enddate,topleft=topleft,bottonright=bottonright)
+        tracks = vs.Track(image, dir_file, size, starthour=starthour, endhour=endhour, C2=0, date1=startdate, date2=enddate,
+                          topleft=topleft, bottonright=bottonright, )
         print(topleft)
         tracks.show()
-
-    
-
-
 
 
 class Tracking(QMainWindow):
@@ -206,8 +228,6 @@ class Tracking(QMainWindow):
         super(Tracking, self).__init__()
         self.ui = Ui_Tracking()
         self.ui.setupUi(self)
-
-
 
 
 app = QApplication(sys.argv)
