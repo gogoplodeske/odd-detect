@@ -70,13 +70,16 @@ class Track:
             df = df[df['x'] < self.bottonright[0]]
             df = df[df['y'] < self.bottonright[1]]
             df = df[df['bounding_size'] < self.size]
-            df =
-
+            f = lambda xx: int((xx.split(' ')[4]).split(':')[0])
+            df['hour'] = df['current_time'].apply(f)
+            df = df[df['hour'] >= starthour]
+            df = df[df['hour'] <= endhour]
+            print(df['hour'])
 
             print("this is my thing to check \n")
 
             print(df['bounding_size'].dtype)
-           # df = df[df['bounding_size']] < self.size
+            # df = df[df['bounding_size']] < self.size
             for index, row in df.iterrows():
                 x = int(row["x"])
                 y = int(row["y"])
@@ -98,20 +101,20 @@ class Track:
 
                 if (strictly[2] == True) or (eq[2] == True and strictly[1] == True) or (
                         eq[2] == True and eq[1] == True and (eq[0] == True or strictly[0] == True)):
-                    if starthour <= hour and hour <= endhour:  # and np.all(maskarea) == True:
-                        print(self.size)
-                        if key in prev_point:
-                            point = prev_point[key]
-                            itX = (1 if x <= point[0] else -1)
-                            # minX = (point[0] if x >= point[0] else x )
-                            itY = (1 if y <= point[1] else -1)
-                            # minY = (point[1] if y >= point[1] else y)
-                            image = cv2.line(image, (x, y), tuple(point), tuple(color_list[c]), 2)
-                            # image[x:point[0]:itX, y:point[1]:itY, 0:3] = color_list[obj_id]
-                            prev_point[key] = [x, y]
-                        else:
-                            # image[x , y , :] = color_list[c]
-                            prev_point[key] = [x, y]
+
+                    #if starthour <= hour and hour <= endhour:  # and np.all(maskarea) == True:
+                    if key in prev_point:
+                        point = prev_point[key]
+                        itX = (1 if x <= point[0] else -1)
+                        # minX = (point[0] if x >= point[0] else x )
+                        itY = (1 if y <= point[1] else -1)
+                        # minY = (point[1] if y >= point[1] else y)
+                        image = cv2.line(image, (x, y), tuple(point), tuple(color_list[c]), 2)
+                        # image[x:point[0]:itX, y:point[1]:itY, 0:3] = color_list[obj_id]
+                        prev_point[key] = [x, y]
+                    else:
+                        # image[x , y , :] = color_list[c]
+                        prev_point[key] = [x, y]
 
         plt.imshow(image)
         plt.show()
